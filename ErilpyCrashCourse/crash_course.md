@@ -64,7 +64,11 @@ sambærilegum hætti.
 
 # Byrjum að skrifa!
 Það er fátt betra að læra en að gera hlutina sjálfur. Því er best að vera með 
-opið REPL og prófa sig áfram.
+opið REPL og prófa sig áfram. Til þess að koma þessu á er best að hafa góða 
+skel (terminal) til að vinna í. Ef notað er Windows er best að nota nýrri 
+kosti svo sem Terminal og þá PowerShell (ekki Command Promt, það er frekar
+takmarkað). Einnig er mjög gott ef tök er á að nota WSL í staðinn. 
+
 
 1. Í skel, búið til nýja möppu og staðsetjið ykkur þar.
 ```bash
@@ -73,17 +77,100 @@ cd ~/Tilraunir
 ```
 2. Búið til nýtt umhverfi:
 ```bash
+python -m venv tilraun
+# eða
 python3 -m venv tilraun
 ```
 3. Sækið pakka:
 ```bash
-pip install scipy numpy pandas matplotlib ipython jupyter jupyterlab
+pip install scipy numpy pandas matplotlib ipython jupyter jupyterlab lxml
 ```
 4. Kveikið á iPython REPL viðmótinu:
 ```bash
 ipython
 ```
+5. Grunntegundir 
+```python
+True
+type(True)      # bool
 
+10
+type(10)        # int
+
+1.5
+type(1.5)       # float
+
+"einn"
+type("einn")    # str
+```
+6. Data structures
+```python
+[1, 2, 3]
+type([1, 2, 3])     # list
+
+(1, 2, 3)
+type((1, 2, 3))     # tuple
+
+{1, 2, 3}
+type({1, 2, 3})     # set
+
+{"einn": 1, "tveir": 2, "þrír": 3}
+type({"einn": 1, "tveir": 2, "þrír": 3})    # dict
+```
+
+
+### Dæmi 3 tekið úr: Singh, B og Skjeret, F (2006) "Ownership relations and cooperation in the Norwegian power market".
+Dreyfing á framleiðslugetu leiðrétt fyrir beinum og óbeinum fjárhagslegum eignartengslum. Þá er _net production capacity_:
+$$
+\begin{aligned}
+\mathbf{T} & = \mathbf{X} + \mathbf{Y}, \\
+\mathbf{X} & = \left[ diag(\mathbf{I} - \mathbf{\bar{A}}) (\mathbf{I} - \mathbf{A})  \mathbf{A} \right] \mathbf{K} \\
+\mathbf{Y} & = diag(\mathbf{I} - \mathbf{\bar{A}}) \mathbf{K},
+\end{aligned}
+$$
+þ.s. $\mathbf{A} = [a_{ij}]$ er fylki yfir eignarhald fyrirtkækis $i$ í fyrirtæki $j$, $\mathbf{\bar{A}} = [a_j]$ og $a_j = \sum_i a_{ij}$, og $\mathbf{K}$ er production capacity, $\mathbf{X}$ er þá capacity úthlutað fyrirtækinu frá fjárhagslegum eingartengslum og $\mathbf{Y}$ frá ytri hluthöfum.
+
+```python
+import numpy as np
+
+A = np.matrix([[0,0.5,0], [0,0,0.5], [0,0.5,0]])
+K = np.matrix([[25], [15], [0]])
+I = np.identity(3)
+
+dIA = np.diag(np.diag(I - A.sum(axis=0)))
+
+V = dIA * A * np.linalg.inv(I - A)
+
+X = V * K
+Y = dIA * K
+T = X + Y
+```
+
+### Miðgengisskráning frá Seðlabankanum:
+```python
+import pandas as pd
+
+gengi = pd.read_html(
+    "https://sedlabanki.is/hagtolur/opinber-gengisskraning/", 
+    thousands="", 
+    decimal=",")[0]
+
+gengi
+
+for _, gj in gengi.iterrows():
+    print(f"Gjaldmiðillinn {gj.Gjaldmiðill} ({gj.Mynt}) hefur miðgengi {gj.Miðgengi}")
+
+
+gengi.loc[gengi.Mynt == "EUR", "Miðgengi"]
+
+gengi.Miðgengi[gengi.Mynt == "EUR"]
+
+
+gj = {g.Mynt: g.Miðgengi for _, g in gengi.iterrows()}
+
+gj["CZK"]
+
+```
 
 
 Variables
