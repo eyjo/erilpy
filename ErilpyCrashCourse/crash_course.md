@@ -172,6 +172,28 @@ gj["CZK"]
 
 ```
 
+### Functions
+
+```python
+import pandas as pd
+
+def get_gengi():
+    tables = pd.read_html(
+        "https://sedlabanki.is/hagtolur/opinber-gengisskraning/", 
+        thousands="", 
+        decimal=",")
+    gengi = {
+        gj.Mynt : gj.Miðgengi
+        for _, gj
+        in tables[0].iterrows()
+    }
+    return gengi
+
+gengi = get_gengi()
+
+```
+
+
 
 Variables
 - Truth Values - Bool
