@@ -36,7 +36,7 @@ cat .git/config
 Til að stilla viðkomandi repo á réttan notanda eru skipanirar:
 ```bash
 git config user.username "eyjo"
-git config user.email "eyjolfurs@gmail.com"
+git config user.email "eyjo@tolvupostur.com"
 
 # Til að gá hvort það hafi heppnast rétt:
 git config --get user.name
@@ -61,7 +61,7 @@ Host github-privat
 git clone git@github-private:eyjo/erilpy.git
 cd erilpy
 git config user.username "eyjo"
-git config user.email "eyjolfurs@gmail.com"
+git config user.email "eyjo@tolvupostur.com"
 ```
 
 
