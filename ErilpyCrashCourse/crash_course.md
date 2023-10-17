@@ -194,31 +194,57 @@ gengi = get_gengi()
 ```
 
 
-
-Variables
-- Truth Values - Bool
-- Numeric Types - int, float, complex
-- Text Sequence Type - str
-
-Data structures
-- list, tuple, set, dict
-- Mutable vs. Immutable Objects
+# Environment
 
 
-Flow control
-- if x < 10:
-- elif x < 5:
-- else:
+Til þess að búa sér til nýtt umhverfi skulum við byrja á því að búa til nýja möppu:
+```bash
+mkdir erildreki
+cd erildreki
+```
+eða
+```powershell
+New-Item -Type Directory -Path '.\erildreki'
+cd erildreki
+```
 
-Loops
-- for i in range(10):
-- print("Hello world!")
+Síðan skapa nýja sýndarumhverfið:
+```bash
+python3 -m venv .venv
+```
+eða
+```powershell
+python -m venv .venv
+```
 
-Functions
+Til að virkja umhverfið:
+```bash
+source .venv/bin/activate
+```
+eða
+```powershell
+.venv\Scripts\activate
+```
 
-Modules
+Þá gæti þurft að uppfæra pip:
+```bash
+pip install --upgrade pip
+```
 
-pip
+Og svo hægt að setja sækja þá pakka sem gætu nýst:
+```bash
+pip install jupyter
+pip install scipy
+pip install numpy
+pip install pandas
+pip install lxml
+pip install matplotlib
+pip install seaborn
+pip install statsmodels
+```
 
-Objects & Methods
+Og til að hefjast handa:
+```bash
+code .
+```
 
