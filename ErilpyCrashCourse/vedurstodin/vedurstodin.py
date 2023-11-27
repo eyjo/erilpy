@@ -18,7 +18,7 @@ payload = {
     "type": "obs",
     "lang": "is",
     "view": "xml",
-    "ids": "1;422;2738",  # Reykjavík, Akureyri og Bolungarvík
+    "ids": "1;422;2738;1473",  # Reykjavík, Akureyri og Bolungarvík
     # "params": "T;D;F;W",  # hiti, vindátt, vindhraði, veðurlýsing ... valfrjálst
 }
 # vedurstofan notar semikommu aðgreiningu sem stríðir gegn stöðlum og er því umbreytt af requests
@@ -90,12 +90,12 @@ vindstefna = {
     'NNV': 'Norð-norð-vestan',
 }
 
-# Búm til lista yfir stöðvarnar og setjum mælingar í uppflettanlegt form:
+# Búum til lista yfir stöðvarnar og setjum mælingar í uppflettanlegt form:
 weather = []
 for station in tree.findall('station'):
     station_id = station.attrib['id']
     weather.append({
-        maelistaerd.get(observation.tag, observation.tag): observation.text if observation.tag != 'D' else vindstefna[observation.text]
+        maelistaerd.get(observation.tag, observation.tag): observation.text if observation.tag != 'D' else vindstefna.get(observation.text, '')
         for observation in station
     })
 
@@ -103,9 +103,10 @@ for station in tree.findall('station'):
 weather
 
 
+
 # eða bara láta rás1 hljómandi texta rúlla ...
 def make_monolog(obs):
-    return f"Veðurathugun fyrir {obs['name']}. {obs['Vindstefna']} átt, {obs['Vindhraði (m/s)']} m/s, hiti {obs['Hiti (°C)']} stig."
+    return f"Veðurathugun fyrir {obs['name']}. {obs['Vindstefna'] if obs['Vindstefna'] else 'alls óljóst með'} átt, {obs['Vindhraði (m/s)']} m/s, hiti {obs['Hiti (°C)']} stig."
 
 for station in weather:
     print(make_monolog(station))
